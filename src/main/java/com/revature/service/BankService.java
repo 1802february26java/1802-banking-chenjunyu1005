@@ -2,6 +2,7 @@ package com.revature.service;
 
 import java.util.Set;
 
+import com.revature.exception.IlleaglTransactionException;
 import com.revature.model.Customer;
 import com.revature.repository.BankCustomerDao;
 
@@ -20,8 +21,12 @@ public class BankService {
 	}
 
 
-	public boolean depositMoney(String firstName,String lastName,double depositAmount) {
+	public boolean depositMoney(String firstName,String lastName,double depositAmount) throws IlleaglTransactionException{
 		// TODO Auto-generated method stub
+		if(depositAmount<0){
+			throw new IlleaglTransactionException("Must Be A Positive Amount");
+		}
+		
 		return bankCustomerDao.depositMoney(firstName,lastName,depositAmount);
 	}
 
@@ -37,4 +42,5 @@ public class BankService {
 		// TODO Auto-generated method stub
 		return null;
 	}*/
+	
 }

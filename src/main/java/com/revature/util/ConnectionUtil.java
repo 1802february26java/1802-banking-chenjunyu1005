@@ -29,7 +29,7 @@ public class ConnectionUtil {
 		 con =DriverManager.getConnection(url, username, password);
 		 logger.info("DataBase Connection successfully");
 		}catch(SQLException s){
-			logger.info("Something wrong");
+			logger.error("Something wrong"+s);
 
 		}
 	}

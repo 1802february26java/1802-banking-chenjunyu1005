@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 
-import com.revature.exception.IlleaglAccountBalanceException;
+import com.revature.exception.IlleaglTransactionException;
 import com.revature.exception.NotEnoughMoneyException;
 import com.revature.model.Customer;
 import com.revature.service.BankService;
@@ -23,7 +23,7 @@ public class Controller {
 		String firstName = sc.next();
 		logger.info("Enter you last name");
 		String lastName = sc.next();
-		logger.info("Login or LogOut");
+		logger.info("Login Page");
 		String loginOut = sc.next().toLowerCase();
 
 		if ("login".equals(loginOut)) {
@@ -82,13 +82,18 @@ public class Controller {
 			}
 			break;
 		case "deposit":
-			depositMoney(firstName, lastName);
+			try {
+				depositMoney(firstName, lastName);
+			} catch (IlleaglTransactionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			break;
 		}
 
 	}
 
-	private void depositMoney(String firstName, String lastName) {
+	private void depositMoney(String firstName, String lastName) throws IlleaglTransactionException {
 		// TODO Auto-generated method stub
 		double depositeAmount = sc.nextDouble();
 		if (service.depositMoney(firstName, lastName, depositeAmount)) {
@@ -139,8 +144,8 @@ public class Controller {
 	private static double checkValidBalance(double balanceNotCheck) {
 		if (balanceNotCheck < 0) {
 			try {
-				throw new IlleaglAccountBalanceException("balance can't less than 0");
-			} catch (IlleaglAccountBalanceException e) {
+				throw new IlleaglTransactionException("balance can't less than 0");
+			} catch (IlleaglTransactionException e) {
 				
 				e.printStackTrace();
 			}
